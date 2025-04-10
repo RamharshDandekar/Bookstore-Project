@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Bookstore{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Nunito+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Serene Blue Bookstore Theme */
+
+        /* Root Variables for Color Palette and Typography */
+        :root {
+            --navbar-color: #3b82f6;       /* Sky Blue - Navbar Background */
+            --navbar-text-color: #ffffff;  /* White - Navbar Text Color */
+            --primary-color: #546e7a;        /* Slate Gray - Primary */
+            --secondary-color: #60a5fa;      /* Light Blue - Secondary/Accent (Buttons, Links) */
+            --accent-color: #c0ca33;         /* Lime Green Accent */
+            --light-bg: #f9f8f7;            /* Off-White Background */
+            --white: #ffffff;                /* White */
+            --text-dark: #424242;           /* Dark Gray Text */
+            --text-light: #757575;          /* Medium Gray Text */
+            --border-color: #e0e0e0;         /* Light Gray Border */
+            --success-color: #4caf50;       /* Green Success */
+            --danger-color: #f44336;        /* Red Danger */
+            --warning-color: #ffc107;       /* Amber Warning */
+            --info-color: #03a9f4;          /* Light Blue Info */
+        }
+
+        /* Basic Reset & Body */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+            line-height: 1.7;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 40px 45px;
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Navigation Bar */
+        nav.navbar {
+            background-color: var(--navbar-color); /* Sky Blue Navbar */
+            color: var(--navbar-text-color);
+            padding: 1.3rem 2.5rem;
+            margin-bottom: 40px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .brand a {
+            color: var(--navbar-text-color);
+            text-decoration: none;
+            font-family: 'Merriweather', serif;
+            font-size: 1.9rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            transition: color 0.3s ease;
+        }
+        .navbar .brand a:hover {
+            color: rgba(255, 255, 255, 0.8); /* Slightly lighter on hover */
+        }
+
+        .navbar .nav-links a {
+            color: rgba(255, 255, 255, 0.8); /* Light grayish blue for nav links */
+            text-decoration: none;
+            margin-left: 28px;
+            padding: 9px 16px;
+            border-radius: 7px;
+            font-weight: 600;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .navbar .nav-links a:hover,
+        .navbar .nav-links a.active {
+            color: var(--navbar-text-color);
+            background-color: rgba(255, 255, 255, 0.15); /* Light background hover/active */
+        }
+
+        .navbar .auth-links span {
+             margin-right: 22px;
+             color: rgba(255, 255, 255, 0.8);
+             font-weight: 500;
+        }
+
+        .navbar .auth-links form {
+            display: inline;
+        }
+
+        .navbar .auth-links button,
+        .navbar .auth-links a.login-link {
+            background: none;
+            border: 2px solid var(--danger-color); /* Red border for Logout */
+            color: var(--danger-color); /* Red text for Logout */
+            padding: 9px 18px;
+            font: inherit;
+            cursor: pointer;
+            border-radius: 7px;
+            margin-left: 16px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+         .navbar .auth-links a.login-link {
+            border-color: var(--secondary-color); /* Light Blue border for Login */
+            color: var(--navbar-text-color);      /* White text for Login initially, will be changed to blue on hover */
+            background-color: var(--secondary-color); /* Light Blue background for Login */
+        }
+
+        .navbar .auth-links button:hover {
+            background-color: var(--danger-color); /* Solid Red on hover for Logout */
+            color: var(--navbar-text-color);
+            border-color: var(--danger-color); /* Keep border red on hover */
+        }
+        .navbar .auth-links a.login-link:hover {
+            background-color: #4f77c8; /* Darker Light Blue on hover for Login */
+            color: var(--navbar-text-color);
+            border-color: var(--secondary-color); /* Keep border light blue on hover */
+        }
+
+
+        /* Headings */
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 28px;
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 14px;
+            font-weight: 700;
+            font-family: 'Merriweather', serif;
+            letter-spacing: -0.8px;
+        }
+        h3 {
+             color: var(--text-dark);
+             margin-top: 0;
+             margin-bottom: 16px;
+             font-weight: 600;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 13px 26px;
+            border: none;
+            border-radius: 9px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 1rem;
+            text-align: center;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.2s ease;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.07);
+        }
+        .btn:focus {
+            outline: none;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        .btn:active {
+            transform: scale(0.96);
+            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-primary {
+            background-color: var(--secondary-color); /* Light Blue */
+            color: var(--navbar-text-color); /* White text on Light Blue */
+        }
+        .btn-primary:hover {
+            background-color: #4f77c8; /* Darker Light Blue */
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+            color: var(--white);
+        }
+        .btn-success:hover {
+            background-color: #43a047;
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: var(--navbar-text-color); /* White text on Red */
+        }
+        .btn-danger:hover {
+            background-color: #e53935;
+        }
+        .btn-danger-outline { /* For remove links */
+             background-color: transparent;
+             color: var(--danger-color);
+             border: 2px solid var(--danger-color);
+             padding: 11px 22px;
+             font-size: 0.95rem;
+             font-weight: 600;
+        }
+        .btn-danger-outline:hover{
+            background-color: var(--danger-color);
+            color: var(--navbar-text-color);
+        }
+
+
+        .btn-secondary {
+            background-color: #b0bec5;
+            color: var(--white);
+        }
+        .btn-secondary:hover {
+            background-color: #90a4ae;
+        }
+
+        /* Book Listing */
+        .book-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+            gap: 35px;
+        }
+
+        .book-card {
+            border: none;
+            padding: 30px;
+            border-radius: 12px;
+            background-color: var(--white);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.06);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .book-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 9px 20px rgba(0,0,0,0.1);
+        }
+
+        .book-card h3 {
+            margin-bottom: 14px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            line-height: 1.3;
+        }
+
+        .book-card p {
+            margin-bottom: 18px;
+            color: var(--text-light);
+            font-size: 1.05rem;
+        }
+        .book-card p strong {
+             color: var(--text-dark);
+             font-weight: 600;
+        }
+        .book-card .price {
+            font-weight: 700;
+            color: var(--secondary-color);
+            font-size: 1.3rem;
+            margin-bottom: 22px;
+        }
+        .book-card .add-to-cart-btn {
+             margin-top: auto;
+             width: 100%;
+             background-color: var(--secondary-color); /* Add to cart in light blue */
+             color: var(--navbar-text-color);
+        }
+        .book-card .add-to-cart-btn:hover {
+            background-color: #4f77c8;
+        }
+
+
+        /* Cart Table */
+        .cart-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-bottom: 35px;
+            font-size: 1.0rem;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 9px rgba(0, 0, 0, 0.04);
+        }
+        .cart-table th, .cart-table td {
+            border: none;
+            padding: 16px 22px;
+            text-align: left;
+            vertical-align: middle;
+            background-color: var(--white);
+        }
+        .cart-table th {
+            background-color: #eceff1;
+            font-weight: 700;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--border-color);
+        }
+        .cart-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        .cart-table tbody tr:nth-child(even) td {
+            background-color: #f4f6f7;
+        }
+        .cart-table td.actions {
+            text-align: center;
+        }
+
+
+        /* Cart Total */
+        .cart-total {
+            text-align: right;
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--text-dark);
+        }
+        .cart-total span {
+             color: var(--secondary-color);
+        }
+
+        /* Back Link */
+        .back-link {
+            margin-top: 30px;
+            display: inline-block;
+        }
+        .back-link a {
+            display: inline-flex;
+            align-items: center;
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        .back-link a:hover {
+            color: #4f77c8;
+        }
+        .back-link svg { /* Example if you want to add an icon */
+            width: 19px;
+            height: 19px;
+            margin-right: 9px;
+            fill: var(--secondary-color);
+            transition: fill 0.3s ease;
+        }
+        .back-link a:hover svg {
+            fill: #4f77c8;
+        }
+
+
+        /* Login Form */
+        .login-form {
+            max-width: 520px;
+            margin: 45px auto;
+            padding: 45px;
+            border: none;
+            border-radius: 14px;
+            background-color: var(--white);
+            box-shadow: 0 7px 18px rgba(0, 0, 0, 0.05);
+        }
+        .login-form h2 {
+            text-align: center;
+            border-bottom: none;
+            margin-bottom: 35px;
+            font-family: 'Merriweather', serif;
+            font-weight: 700;
+            font-size: 2.1rem;
+            letter-spacing: -0.9px;
+            color: var(--primary-color);
+        }
+
+        .login-form form p {
+            margin-bottom: 22px;
+        }
+        .login-form label {
+            display: block;
+            margin-bottom: 9px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        .login-form input[type="text"],
+        .login-form input[type="password"] {
+            width: 100%;
+            padding: 13px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 7px;
+            font-size: 1.0rem;
+            transition: border-color 0.3s ease;
+        }
+        .login-form input[type="text"]:focus,
+        .login-form input[type="password"]:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 6px rgba(var(--secondary-color-rgb), 0.15);
+        }
+        /* Style form errors if they appear */
+         .login-form ul.errorlist {
+            list-style: none;
+            padding: 16px;
+            margin-bottom: 22px;
+            background-color: #ffebee;
+            color: var(--danger-color);
+            border: 1px solid #ef9a9a;
+            border-radius: 7px;
+        }
+        .login-form button[type="submit"] {
+             width: 100%;
+             padding: 15px;
+             font-size: 1.1rem;
+        }
+
+        /* Messages Framework */
+        .messages {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 35px;
+        }
+        .messages li {
+            padding: 19px 22px;
+            margin-bottom: 14px;
+            border-radius: 9px;
+            border: none;
+            box-shadow: 0 4px 7px rgba(0, 0, 0, 0.04);
+        }
+        .messages li.success {
+            background-color: #e8f5e9;
+            color: var(--success-color);
+        }
+        .messages li.error {
+            background-color: #ffebee;
+            color: var(--danger-color);
+        }
+         .messages li.warning {
+            background-color: #fffde7;
+            color: var(--warning-color);
+        }
+         .messages li.info {
+            background-color: #e3f2fd;
+            color: var(--info-color);
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="brand">
+             <a href="{% url 'book_list' %}">Bookstore</a>
+        </div>
+        <div class="nav-links">
+            <a href="{% url 'book_list' %}">Books</a>
+            <a href="{% url 'view_cart' %}">View Cart</a>
+        </div>
+        <div class="auth-links">
+            {% if user.is_authenticated %}
+                <span>Welcome, {{ user.username }}!</span>
+                <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}" class="login-link">Login</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="container">
+         {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
+    </div>
+
+</body>
+</html>
